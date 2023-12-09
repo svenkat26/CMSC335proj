@@ -5,31 +5,63 @@
     <head>
         
         <title>Welcome to Untitled App</title>
-        <link rel = "stylesheet" href = "style.css" type = "text/css">
-   
+        <script src = "weather.js" defer></script>
+
+        <style>
+            body {
+                font: 16px;
+                text-align: center;
+                background: lightblue;
+            }
+            .mainBox {
+                width: 20rem;
+                height: 10rem;
+                margin: auto;
+            }
+            div {
+                width: 50rem;
+                margin: auto;  
+            }
+
+        </style>
+
     </head>
 
 
     <body>
+        <br> <br> <br>
+        <h1>WELCOME TO GEOCAST</h1>
 
-        <h1>GEOCAST</h1>
+        <div>
+            <h4>
+                Geocast is a user-friendly website that allows you to discover real-time weather information 
+                anywhere in the world. 
+            </h4>
+            <br>
+        </div>
 
-        <form class = "mainBox">
-            <fieldset>
+        <form action = "/homePageData" method = "POST">
+            
+            <fieldset class = "mainBox">
                 <h2><strong>Sign In</strong></h2>
                 <strong>Username:</strong>
-                <input type = "text" name = "userName">
-                <br>
-                <br>
+                <input type = "text" name = "username">
+                <br><br>
                 <strong>Password:</strong>
                 <input type = "text" name = "password">
             </fieldset>
             <br>
-            <fieldset>
-                <a href = "/createAccount">Create Account</a>
-            </fieldset>
+            <button type = "reset">Reset</button>
+            <button type = "submit">Submit Application</button>
+        
+            <br><br>
 
+            <a href = "/createAccount">Create Account</a>
+        
         </form>
+
+        <br>
+        <img src = "weatherConditions.jpg" alt = "Weather Conditions">
 
 
     </body>
