@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 
 /* POST Home Page Data page */
-app.post('/homePageData', async (req, res) => {
+app.post('/location', async (req, res) => {
     
   const { username, password} = req.body;
 
@@ -46,7 +46,7 @@ try {
   await client.connect()
   await insertHomePageData(username, password);
 
-  return res.render('homePageData', {
+  return res.render('location', {
     username: username,
     password: password,
   });
