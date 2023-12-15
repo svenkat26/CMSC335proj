@@ -16,8 +16,49 @@
                 width: 20rem;
                 margin: auto;
             }
+            .formBox{
+                border: 2px solid black;
+                padding: 20px;
+                width: 20rem;
+                margin: auto;
 
+            }
         </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const doc = document.getElementById("submit");
+            const reset = document.getElementById("reset");
+            doc.addEventListener('click', async function () {
+                if (confirm("Are you sure you want to submit your application?\n You will not be able to change your information once submitted.")) {
+                    const firstName = document.getElementById("firstName").value;
+                    const lastName = document.getElementById("lastName").value;
+                    const userName = document.getElementById("userName").value;
+                    const password = document.getElementById("password").value;
+                    const formData = {
+                        firstName: firstName,
+                        lastName: lastName,
+                        userName: userName,
+                        password: password,
+                        location: []
+                    };
+                    const response = await fetch('/submitApplication', {
+                        method: 'POST',
+                        mode: "cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData),
+                    });
+                    window.location.href = '/';
+                }
+            });
+            reset.addEventListener('click', function () {
+                document.getElementById("firstName").value = ""
+                document.getElementById("lastName").value = ""
+                document.getElementById("userName").value = ""
+                document.getElementById("password").value = ""
+            });
+        });
+    </script>
    
     </head>
 
@@ -26,32 +67,28 @@
 
         <br><br>
         <h1>Create An Account </h1>
-        
-        <form>
-
-            <fieldset class = "mainBox">
+        <form action = "/submitApplication" method = "POST">
+            <div class="formBox">
                 <strong>First Name:</strong>
-                <input type = "text" name = "firstName">
+                <input type = "text" id="firstName" name="firstName">
                 <br>
                 <br>
                 <strong>Last Name:</strong>
-                <input type = "text" name = "lastName">
+                <input type = "text" id = "lastName" name = "lastName">
                 <br>
                 <br>
                 <strong>Username:</strong>
-                <input type = "text" name = "userName">
+                <input type = "text" id="userName" name = "userName">
                 <br>
                 <br>
                 <strong>Password:</strong>
-                <input type = "text" name = "password">
+                <input type = "text" id="password" name = "password">
                 <br>
                 <br>
-                <button type = "reset">Reset</button>
-                <button type = "submit">Submit Application</button>
-            </fieldset>
-          
+                <button id="reset" type = "reset">Reset</button>
+                <button id="submit" type = "submit">Submit Application</button>
+            </div>
         </form>
-
     </body>
 
 </html>

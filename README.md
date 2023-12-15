@@ -9,7 +9,7 @@ App Description:  Geocast is a user-friendly website that allows you to discover
 
 API links - 
 - Open Weather (https://rapidapi.com/worldapi/api/open-weather13/)
-- Google Maps Geocoding (https://rapidapi.com/googlecloud/api/google-maps-geocoding/)
+- Google Maps Platfomr - Geocoding API (https://developers.google.com/maps/documentation/geocoding)
 
 
 IDEA: Basically weather app, the user inputs a location and then the Geocoding API spits out a long and lat based on that and then based on that info the Weather API gives info about the weather in that area 
