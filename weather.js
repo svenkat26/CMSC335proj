@@ -4,22 +4,14 @@ const app = express()
 const path = require('path')
 require("dotenv").config({ path: path.resolve(__dirname, '/.env') })  
 
-const uri = 'mongodb+srv://djagoda:mongo20041@cluster0.d9s4xfa.mongodb.net/?retryWrites=true&w=majority';
  
-/* Our database and collection */
-const databaseAndCollection = { db: "CMSC335_FinalProject", collection: "users"};
-const { MongoClient, ServerApiVersion } = require('mongodb')
-const client = new MongoClient(uri, {serverApi: ServerApiVersion.v1});
-
-async function main() {
-    try {
-        await client.connect();
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await client.close();
-    }
-}
+const readline = require('readline');
+const bodyParser = require("body-parser");
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended:false}));
+const { resolve } = require('dns');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://svenkat7:Sm032246@cluster0.kemrlft.mongodb.net/?retryWrites=true&w=majority";
 
 /* View engine */
 app.set('views', path.join(__dirname, 'views'))
@@ -29,47 +21,36 @@ app.set('view engine', '.ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false })) 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended:false}))
 
 /* GET Home page */
 app.get('/', (req, res) => {
 	res.render('homePage')
 });
 
+app.post('/submitApplication', async(req, res) => {
+  const json_body = req.body;
+  const client = new MongoClient(uri);
+  await client.connect();
+  await client.db("CMSC335_FinalProject").collection("users").insertOne(json_body);
+  res.send(json_body);
+});
 
-
-/* POST Home Page Data page */
-app.post('/location', async (req, res) => {
-    
-  const { username, password} = req.body;
-
-try {
-  await client.connect()
-  await insertHomePageData(username, password);
-
-  return res.render('location', {
-    username: username,
-    password: password,
-  });
-
-  } catch (e) {
-      console.error(e);
-
-  } finally {
-      await client.close();
+app.post('/findApplication', async(req, res) => {
+  const json_body = req.body;
+  const client = new MongoClient(uri);
+  await client.connect();
+  const query_obj = await client.db("CMSC335_FinalProject").collection("users").findOne(json_body);
+  if (query_obj != null){
+    res.send(query_obj);
   }
 });
 
-async function insertHomePageData (username, password) {
-    
-  const result = client.db(databaseAndCollection.db).collection(databaseAndCollection.collection);
-  
-  await result.insertOne({
-      username: password,
-      password: password
-  });
-
-  await client.close();
-}
+app.get('/welcomePage', async(req, res) => {
+  const firstName = req.query;
+  res.render('welcomePage', firstName);
+})
 
 /* Get Create Account page */
 app.get('/createAccount', (req, res) => {

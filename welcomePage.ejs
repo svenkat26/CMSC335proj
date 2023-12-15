@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   
+    <head>
+        <title>Geocast</title>
+    </head>
+
+    <body>
+        <br> <br> <br>
+        <h1>WELCOME TO GEOCAST <%= firstName %></h1>
+        <div id="replaceHTML">
+        </div>
+        <br>
+        <br>
+        <strong>Address:</strong>
+        <input type = "text" id = "address" name = "address">
+        <button id="submit" type = "submit">Submit</button>
+        <br>
+        <br>
+        <div id="long">
+
+        </div>
+        <br>
+        <a href="/addLocations">Add More Locations</a>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const doc = document.getElementById("submit");
+                doc.addEventListener('click', async function () {
+                    const address = document.getElementById("address").value;
+                    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=AIzaSyDgxQklS95pLeqvssvg7Z7djcxiDHsQm8w`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const { lat, lng } = data.results[0].geometry.location;
+                        var html = `<h1>For the address: ${address} the longitude and latitude coordinates are:</h1><ul><li> Longitude: ${lat}</li><li>Latitude: ${lng}`
+                        document.getElementById("long").innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
+
+                });
+                function generateTable() {
+                    const locationsParam = new URLSearchParams(window.location.search).get('locations');
+                    const decodedLocations = locationsParam ? JSON.parse(decodeURIComponent(locationsParam)) : [];
+    
+                    let tableHTML = '<table border="1"> <tr> <th> Location </th> <th> Temperature </th> </tr>';
+                        decodedLocations.forEach((item) => {
+                        tableHTML += `<tr><td>${item}</td><td>Add Weather Here</td></tr>`;
+                    });
+                    tableHTML += '</table>';
+                    document.getElementById("replaceHTML").innerHTML = tableHTML;
+                }
+                generateTable();
+            });
+        </script>
+    </body>
+
+</html>
+

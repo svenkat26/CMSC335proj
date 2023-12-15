@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   
+    <head>
+        
+        <title>Geocast</title>
+
+        <style>
+            body {
+                font: 16px;
+                text-align: center;
+                background: lightblue;
+            }
+            .mainBox {
+                width: 20rem;
+                height: 10rem;
+                margin: auto;
+            }
+            div {
+                width: 50rem;
+                margin: auto;  
+            }
+
+        </style>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const doc = document.getElementById("submit");
+            const reset = document.getElementById("reset");
+            doc.addEventListener('click', async function () {
+                const userName = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+                const formData = {
+                    userName: userName,
+                    password: password
+                };
+                const response = await fetch('/findApplication', {
+                    method: 'POST',
+                    mode: "cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData),
+                });
+                const result = await response.json();
+                const locations = result.location || [];
+                const locationsQueryParam = encodeURIComponent(JSON.stringify(locations));
+                window.location.href = `/welcomePage?firstName=${result.firstName}&locations=${locationsQueryParam}`;
+            });
+            reset.addEventListener('click', function () {
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+            });
+        });
+        </script>
+    </head>
+
+
+    <body>
+        <br> <br> <br>
+        <h1>WELCOME TO GEOCAST</h1>
+
+        <div>
+            <h4>
+                Geocast is a user-friendly website that allows you to discover real-time weather information 
+                anywhere in the world. 
+            </h4>
+            <br>
+        </div>
+
+        <div>
+            
+            <fieldset class = "mainBox">
+                <h2><strong>Sign In</strong></h2>
+                <strong>Username:</strong>
+                <input id="username" type = "text" name = "username">
+                <br><br>
+                <strong>Password:</strong>
+                <input id="password" type = "text" name = "password">
+            </fieldset>
+            <br>
+            <button id = "reset" type = "reset">Reset</button>
+            <button id = "submit" type = "submit">Submit Application</button>
+        
+            <br><br>
+
+            <a href = "/createAccount">Create Account</a>
+        
+        </div>
+
+        <br>
+        <img src="weather.png" alt="Weather Conditions" width="500" height="300">
+
+    </body>
+
+</html>
+
