@@ -8,7 +8,7 @@ API links -
 - Open Meteo - Weather Forecast API ([https://rapidapi.com/worldapi/api/open-weather13/](https://open-meteo.com/en/docs#location_mode=csv_coordinates))
 - Google Maps Platform - Geocoding API (https://developers.google.com/maps/documentation/geocoding)
 
-Video Link: https://youtu.be/zpWkY2nHyqI
+Youtube Demo Video: https://youtu.be/zpWkY2nHyqI
 
 
 
