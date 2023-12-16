@@ -27,30 +27,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const doc = document.getElementById("submit");
             const reset = document.getElementById("reset");
-            doc.addEventListener('click', async function () {
-                if (confirm("Are you sure you want to submit your application?\n You will not be able to change your information once submitted.")) {
-                    const firstName = document.getElementById("firstName").value;
-                    const lastName = document.getElementById("lastName").value;
-                    const userName = document.getElementById("userName").value;
-                    const password = document.getElementById("password").value;
-                    const formData = {
-                        firstName: firstName,
-                        lastName: lastName,
-                        userName: userName,
-                        password: password,
-                        location: []
-                    };
-                    const response = await fetch('/submitApplication', {
-                        method: 'POST',
-                        mode: "cors",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(formData),
-                    });
-                    location.replace("/");
-                }
-            });
             reset.addEventListener('click', function () {
                 document.getElementById("firstName").value = ""
                 document.getElementById("lastName").value = ""

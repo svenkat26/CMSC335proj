@@ -36,7 +36,7 @@ app.post('/submitApplication', async(req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
   await client.db("CMSC335_FinalProject").collection("users").insertOne(json_body);
-  res.send(json_body);
+  res.redirect('/');
 });
 
 app.post('/findApplication', async(req, res) => {
