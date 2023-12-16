@@ -41,10 +41,14 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData),
                 });
-                const result = await response.json();
-                const locations = result.location || [];
-                const locationsQueryParam = encodeURIComponent(JSON.stringify(locations));
-                window.location.href = `/welcomePage?firstName=${result.firstName}&locations=${locationsQueryParam}`;
+                if (response.status === 401){
+                    alert("Incorreect username and password combination");
+                } else {
+                    const result = await response.json();
+                    const locations = result.location || [];
+                    const locationsQueryParam = encodeURIComponent(JSON.stringify(locations));
+                    window.location.href = `/welcomePage?firstName=${result.firstName}&locations=${locationsQueryParam}`;
+                }
             });
             reset.addEventListener('click', function () {
                 document.getElementById("username").value = "";

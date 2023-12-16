@@ -17,6 +17,7 @@ const uri = 'mongodb+srv://djagoda:mongo20041@cluster0.d9s4xfa.mongodb.net/?retr
 /* View engine */
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', '.ejs')
+app.use(express.static('views'));
 
 /* App */
 app.use(express.json())
@@ -43,9 +44,11 @@ app.post('/findApplication', async(req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
   const query_obj = await client.db("CMSC335_FinalProject").collection("users").findOne(json_body);
-  if (query_obj != null){
-    res.send(query_obj);
-  }
+  if (query_obj !== null) {
+    res.status(200).json(query_obj);
+  } else {
+    res.status(401).json({ error: "Incorrect username and password combination" });
+  }  
 });
 
 app.get('/welcomePage', async(req, res) => {
